@@ -72,3 +72,36 @@
         o2.inSampleSize = scale;
         return BitmapFactory.decodeStream(activity.getContentResolver().openInputStream(uri), null, o2);
     }
+    
+    
+    
+    
+    @Override
+    public void onActivityResult(int reqCode, int resultCode, Intent data) {
+        super.onActivityResult(reqCode, resultCode, data);
+        if (resultCode == RESULT_OK && reqCode == StaticFunction.fotosCode.RESULT_LOAD_IMG) {
+            try {
+                Uri imageUri = data.getData();
+                Bitmap selectedImage = StaticFunction.decodeUri(imageUri, 150, cadastroActivity);
+                String base64 = StaticFunction.encodeToBase64(selectedImage, Bitmap.CompressFormat.JPEG);
+                StaticFunction.driver.setFoto(base64);
+                System.gc();
+                imgFoto.setImageBitmap(selectedImage);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Erro ao pegar a foto.", Toast.LENGTH_LONG).show();
+            }
+        } else if (resultCode == RESULT_OK && reqCode == StaticFunction.fotosCode.REQUEST_IMAGE_CAPTURE) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            String base64 = StaticFunction.encodeToBase64(imageBitmap, Bitmap.CompressFormat.JPEG);
+            StaticFunction.driver.setFoto(base64);
+            System.gc();
+            imgFoto.setImageBitmap(imageBitmap);
+        } else {
+            Toast.makeText(this, "Você não selecionou uma foto.", Toast.LENGTH_LONG).show();
+        }
+        System.gc();
+    }
+    
+    
