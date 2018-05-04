@@ -1,0 +1,7 @@
+    fun campoVazil(listDeCampos : List<EditText>) : Boolean{
+        for(i in listDeCampos.iterator()){
+            if (i.text.toString().isNullOrEmpty())
+                return true
+        }
+        return true
+    }
