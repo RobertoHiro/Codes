@@ -1,0 +1,3 @@
+    public static void replaceFragment(FragmentActivity fragmentActivity, Fragment frag) {
+        fragmentActivity.getSupportFragmentManager().beginTransaction().replace(R.id.container,frag, "TAG").commit();
+    }
